@@ -1,15 +1,16 @@
-block = peripheral.wrap("left")
+speaker = peripheral.find("speaker")
 
 function n(instrument, note, sleep)
   os.sleep(sleep)
-  block.playNote(instrument, note)
+  speaker.playNote(instrument, 100, note)
 end
 
-piano = 0
-bass_drum = 1
-snare_drum = 2
-click = 3
-double_bass = 4
+piano = "harp"
+bass_drum = "basedrum"
+snare_drum = "snare"
+click = "hat"
+double_bass = "bass"
+
 n(double_bass, 16, 0)
 n(piano, 4, 0.1)
 n(piano, 20, 0.1)
