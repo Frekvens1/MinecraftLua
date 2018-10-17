@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/1lann/dissonance/ffmpeg"
-	"github.com/Frekvens1/MinecraftLua/Computronics/Golang/dfpwm"
+	"github.com/tmpim/juroku/dfpwm"
 )
 
 func main() {
