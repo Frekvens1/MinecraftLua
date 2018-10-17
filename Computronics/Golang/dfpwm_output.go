@@ -5,7 +5,6 @@ import (
 	"io"
 	"os"
 
-	//"github.com/1lann/dissonance/drivers/paudio"
 	"github.com/1lann/dissonance/ffmpeg"
 	"github.com/1lann/juroku/dfpwm"
 )
@@ -21,9 +20,6 @@ func main() {
 		panic(err)
 	}
 
-	//p, _ := paudio.NewPlaybackDevice()
-	// p.PlayStream(result)
-
 	rd, wr := io.Pipe()
 
 	go func() {
@@ -32,7 +28,7 @@ func main() {
 	}()
 	//dec := dfpwm.NewDecoder(rd, 48000)
 
-	 file, err := os.Create("./outfile")
+	 file, err := os.Create("./output.dfpwm")
 	 if err != nil {
 	 	panic(err)
 	 }
@@ -42,15 +38,13 @@ func main() {
 		//Do nothing, not sure what 'rd / wr' actually does	
 	}
 
-	 //log.Println(dfpwm.EncodeDFPWM(file, stream))
+	 log.Println(dfpwm.EncodeDFPWM(file, stream))
 
-	 //file, err := os.Open("outfile")
-	 //if err != nil {
-	 //	panic(err)
-	 //}
+	 file, err := os.Open("outfile")
+	 if err != nil {
+	 	panic(err)
+	 }
 
-	 //defer file.Close()
+	 defer file.Close()
 
-	 //dec := dfpwm.NewDecoder(file, 48000)
-	//p.PlayStream(dec)
 }
