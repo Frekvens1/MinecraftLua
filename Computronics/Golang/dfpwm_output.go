@@ -37,6 +37,10 @@ func main() {
 	 	panic(err)
 	 }
 	 defer file.Close()
+	
+	if rd {
+		//Do nothing, not sure what 'rd / wr' actually does	
+	}
 
 	 //log.Println(dfpwm.EncodeDFPWM(file, stream))
 
