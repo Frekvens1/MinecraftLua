@@ -38,7 +38,7 @@ func main() {
 	 }
 	 defer file.Close()
 
-	 log.Println(dfpwm.EncodeDFPWM(file, stream))
+	 //log.Println(dfpwm.EncodeDFPWM(file, stream))
 
 	 file, err := os.Open("outfile")
 	 if err != nil {
