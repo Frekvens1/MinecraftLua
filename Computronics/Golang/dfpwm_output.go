@@ -38,7 +38,7 @@ func main() {
 	 }
 	 defer file.Close()
 	
-	if rd {
+	if rd != nil {
 		//Do nothing, not sure what 'rd / wr' actually does	
 	}
 
