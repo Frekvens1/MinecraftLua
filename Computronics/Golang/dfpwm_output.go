@@ -40,13 +40,13 @@ func main() {
 
 	 //log.Println(dfpwm.EncodeDFPWM(file, stream))
 
-	 file, err := os.Open("outfile")
-	 if err != nil {
-	 	panic(err)
-	 }
+	 //file, err := os.Open("outfile")
+	 //if err != nil {
+	 //	panic(err)
+	 //}
 
-	 defer file.Close()
+	 //defer file.Close()
 
-	 dec := dfpwm.NewDecoder(file, 48000)
+	 //dec := dfpwm.NewDecoder(file, 48000)
 	//p.PlayStream(dec)
 }
