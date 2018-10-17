@@ -21,7 +21,7 @@ func main() {
 		panic(err)
 	}
 
-	p, _ := paudio.NewPlaybackDevice()
+	//p, _ := paudio.NewPlaybackDevice()
 	// p.PlayStream(result)
 
 	rd, wr := io.Pipe()
@@ -30,7 +30,7 @@ func main() {
 		dfpwm.EncodeDFPWM(wr, stream)
 		wr.Close()
 	}()
-	dec := dfpwm.NewDecoder(rd, 48000)
+	//dec := dfpwm.NewDecoder(rd, 48000)
 
 	 file, err := os.Create("./outfile")
 	 if err != nil {
