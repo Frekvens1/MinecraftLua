@@ -38,9 +38,9 @@ func main() {
 		//Do nothing, not sure what 'rd / wr' actually does	
 	}
 
-	 log.Println(dfpwm.EncodeDFPWM(file, stream))
+	 fmt.Println(dfpwm.EncodeDFPWM(file, stream))
 
-	 file, err := os.Open("outfile")
+	 file, err = os.Open("./output.dfpwm")
 	 if err != nil {
 	 	panic(err)
 	 }
