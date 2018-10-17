@@ -5,7 +5,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/1lann/dissonance/drivers/paudio"
+	//"github.com/1lann/dissonance/drivers/paudio"
 	"github.com/1lann/dissonance/ffmpeg"
 	"github.com/1lann/juroku/dfpwm"
 )
