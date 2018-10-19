@@ -3,7 +3,7 @@ local meta = modules.getMetaOwner()
 
 local pressed = false
 key = 76
-force = 3 -- 1-4
+force = 3 -- 1-5
 
 function readTable(tb)
 	for k, v in pairs(tb) do
