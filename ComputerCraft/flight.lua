@@ -32,7 +32,6 @@ function doHover()
 	
 end
 
-end
 
 while true do
 	local event = {os.pullEvent()}
