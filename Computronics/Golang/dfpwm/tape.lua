@@ -3,7 +3,7 @@ tape = peripheral.find("tape_drive")
 function get(url)
 	local result = nil
 	
-	if not http.checkURL(url) then
+	if not http,checkURL(url) then
 		return nil
 	end
 	
@@ -39,7 +39,7 @@ while true do
 		tape.seek(-tape.getPosition()) -- Rewind
 		tape.play()
 		
-		while not tape.getPosition() >= #files[i] do
+		while not ((tape.getPosition() >= #files[i]) or tape.isEnd()) do
 			os.sleep(1)
 		end
 		
