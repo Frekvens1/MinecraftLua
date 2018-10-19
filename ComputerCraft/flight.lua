@@ -1,6 +1,5 @@
 local modules = peripheral.find("neuralInterface")
-
-meta = modules.getMetaOwner()
+local meta = modules.getMetaOwner()
 
 local pressed = false
 
@@ -13,9 +12,7 @@ end
 while true do
 	local event = {os.pullEvent()}
 	
-	
 	readTable(event)
-	
 	
 	if event[1] == "key" and event[2] == 76 then
 		if not pressed then
