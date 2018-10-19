@@ -7,7 +7,7 @@ local pressed = false
 while true do
 	local event = {os.pullEvent()}
 	
-	if event[1] == "key" and event[2] == 76 then
+	if event[1] == "char" and event[2] == 5 then
 		if not pressed then
 			meta = modules.getMetaOwner()
 			modules.launch(meta.yaw, meta.pitch, 3)
