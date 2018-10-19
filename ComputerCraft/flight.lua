@@ -14,7 +14,7 @@ end
 while true do
 	local event = {os.pullEvent()}
 	
-	readTable(event)
+	--readTable(event)
 	
 	if event[1] == "key" and event[2] == key then
 		if not pressed then
