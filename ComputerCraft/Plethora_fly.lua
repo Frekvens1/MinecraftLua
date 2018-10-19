@@ -3,7 +3,7 @@ if not modules then
 	error("Must have a neural interface", 0)
 end
 
-if not modules.hasModule("plethora:sensor") then error("Must have a sensor", 0) end
+--if not modules.hasModule("plethora:sensor") then error("Must have a sensor", 0) end
 if not modules.hasModule("plethora:scanner") then error("Must have a scanner", 0) end
 if not modules.hasModule("plethora:introspection") then error("Must have an introspection module", 0) end
 if not modules.hasModule("plethora:kinetic", 0) then error("Must have a kinetic agument", 0) end
@@ -41,6 +41,7 @@ function()
   function()
 		while true do
 			meta = modules.getMetaOwner()
+			os.sleep(0)
 		end
 	end,
   
