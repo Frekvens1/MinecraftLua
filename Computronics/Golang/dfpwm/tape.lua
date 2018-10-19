@@ -3,7 +3,7 @@ tape = peripheral.find("tape_drive")
 function get(url)
 	local result = nil
 	
-	if not http,checkURL(url) then
+	if not http.checkURL(url) then
 		return nil
 	end
 	
