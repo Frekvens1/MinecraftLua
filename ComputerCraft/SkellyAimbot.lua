@@ -105,10 +105,9 @@ while true do
 	buffer.print()
 	for k, entity in pairs(interface.sense()) do
 		hostile, tag = filter(entity)
+		buffer.add(entity.name..": "..tag)
 		
 		if hostile then
-			buffer.add(entity.name..": "..tag)
-			
 			entity = interface.sense()[k] -- Greater precision with multiple moving targets.
 			local yaw, pitch = Angle.predict(entity)
 			interface.look(yaw, pitch)
