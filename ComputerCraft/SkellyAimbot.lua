@@ -80,7 +80,7 @@ while true do
 			
 	buffer.print()
 	for k, entity in pairs(interface.sense()) do
-		if filter(entity.name) and (entity.name == entity.displayName) and not (entity.id == meta.id) then
+		if filter(entity) and not (entity.id == meta.id) then
 			buffer.add(entity.name)
 							
 			local yaw, pitch = Angle.predict(entity)
