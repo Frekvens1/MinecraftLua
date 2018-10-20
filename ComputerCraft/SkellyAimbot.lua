@@ -1,3 +1,4 @@
+--    wget http://127.0.0.1/CC/SkellyAimbot.lua protec    --
 local master = "Frekvens1"
 interface = peripheral.find("neuralInterface")
 
@@ -18,7 +19,8 @@ local mobs = {
 	Zombie = true,
 	Skeleton = true,
 	Creeper = true,
-	Spider = true
+	Spider = true,
+	Slime = true
 }
 
 local function filter(name)
@@ -59,13 +61,16 @@ function Buffer()
 end
 
 local Angle = { }
-
-function Angle.towards(x, y, z)
-  return math.deg(math.atan2(-x, z)), 0
-end
-
-function Angle.away(x, y, z)
-  return math.deg(math.atan2(x, -z)), 0
+function Angle.towards(entity)
+	
+	local x = entity.x + entity.motionX
+	local y = entity.y + entity.motionY
+	local z = entity.z + entity.motionZ
+	
+	local yaw = math.deg(math.atan2(-x, z))
+	local pitch = -math.deg(math.atan2(entity.y, math.sqrt(entity.x^2 + entity.z^2)))
+	
+	return yaw, pitch
 end
 
 buffer = Buffer()
@@ -104,20 +109,12 @@ parallel.waitForAny(
 						if filter(entity.name) and (entity.name == entity.displayName) then
 							buffer.add(entity.name)
 							
-							local yaw, pitch = Angle.towards(entity.x - .5, entity.y + 1, entity.z - .5)
-							local pitch = -math.deg(math.atan2(entity.y, math.sqrt(entity.x * entity.x + entity.z * entity.z)))
-							
+							local yaw, pitch = Angle.towards(entity)
 							interface.look(yaw, pitch)
-							--interface.shoot(1)
 							interface.fire(yaw, pitch, 5)
-							
-							--shootAt2(entity, 1)
-							--os.sleep(0.1)
 						end
 					end
 				end
-				
-				--os.sleep(0.5)
 				
 			end
 		end
