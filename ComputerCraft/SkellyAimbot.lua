@@ -109,7 +109,7 @@ while true do
 		
 		if hostile then
 			entity = interface.sense()[k] -- Greater precision with multiple moving targets.
-			local yaw, pitch = Angle.predict(entity)
+			local yaw, pitch = Angle.towards(entity)
 			interface.look(yaw, pitch)
 			interface.fire(yaw, pitch, 0.5) --0.5 Doesn't destroy blocks, and weaker.
 		end
