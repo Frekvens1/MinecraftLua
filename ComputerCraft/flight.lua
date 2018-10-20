@@ -17,24 +17,21 @@ function readTable(tb)
 	end
 end
 
-function handleMultiplier(mode)
-	if mode then
-		multiplier_now = multiplier
+function handleMultiplier()
+	local isOn = false
+	
+	if multiplier_now ==  multiplier then
+		multiplier_now = 1
 	else
-		multiplier = 1
+		multiplier_now = multiplier
+		isOn = true
 	end
-	
-	if not (multiplier_mode == mode) then
-		return nil
-	end
-	
-	multiplier_mode = mode
 	
 	if modules.hasModule("plethora:glasses") then
 		canvas = modules.canvas()
 		
 		canvas.clear()
-		local text = canvas.addText({x=1, y=1}, "Multiplier mode: "..tostring(mode))
+		local text = canvas.addText({x=1, y=1}, "Multiplier mode: "..tostring(isOn))
 		text.setScale(3)
 	end
 end
@@ -55,11 +52,11 @@ while true do
 	elseif event[1] == "key" and event[2] == key_launch then
 		modules.launch(0, -90, force_launch*multiplier_now)
 		
-	elseif event[1] == "key" and event[2] == key_multiplier then
-		handleMultiplier(true)
+	elseif event[1] == "key" and event[2] == key_multiplier and not multiplier_mode then
+		handleMultiplier()
 	end
 	
 	if event[1] == "key_up" and event[2] == key_multiplier then
-		handleMultiplier(false)
+		multiplier_mode = false
 	end
 end
