@@ -73,6 +73,18 @@ function Angle.towards(entity)
 	return yaw, pitch
 end
 
+function Angle.predict(entity)
+	
+	local x = entity.x + (entity.motionX^2)*2
+	local y = entity.y + (entity.motionY^2)*2
+	local z = entity.z + (entity.motionZ^2)*2
+	
+	local yaw = math.deg(math.atan2(-x, z))
+	local pitch = -math.deg(math.atan2(entity.y, math.sqrt(entity.x^2 + entity.z^2)))
+	
+	return yaw, pitch
+end
+
 buffer = Buffer()
 
 parallel.waitForAny(
@@ -109,7 +121,7 @@ parallel.waitForAny(
 						if filter(entity.name) and (entity.name == entity.displayName) then
 							buffer.add(entity.name)
 							
-							local yaw, pitch = Angle.towards(entity)
+							local yaw, pitch = Angle.predict(entity)
 							interface.look(yaw, pitch)
 							interface.fire(yaw, pitch, 5)
 						end
