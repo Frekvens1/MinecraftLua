@@ -6,8 +6,8 @@ local force_fly = 2 -- 1-4
 local key_launch = 57
 local force_launch = 1.5 -- 1-4
 
-local key_multiplayer = 29
-local multiplier_mode = false
+local key_multiplier = 29
+local multiplier_mode = true
 local multiplier = 2
 local multiplier_now = 1
 
@@ -28,7 +28,7 @@ function handleMultiplier(mode)
 		canvas = modules.canvas()
 		
 		canvas.clear()
-		canvas.addText({x=1, y=1}, "Multiplier mode: "..tostring(mode), colors.black, 4)
+		canvas.addText({x=10, y=10}, "Multiplier mode: "..tostring(mode), colors.black, 4)
 	end
 	
 	if mode then
@@ -37,6 +37,8 @@ function handleMultiplier(mode)
 		multiplier = 1
 	end
 end
+
+handleMultiplier(false)
 
 while true do
 	local event = {os.pullEvent()}
@@ -52,11 +54,11 @@ while true do
 	elseif event[1] == "key" and event[2] == key_launch then
 		modules.launch(0, -90, force_launch*multiplier_now)
 		
-	elseif event[1] == "key" and event[2] == key_multiplayer then
+	elseif event[1] == "key" and event[2] == key_multiplier then
 		handleMultiplier(true)
 	end
 	
-	if event[1] == "key_up" and event[2] == key_multiplayer then
+	if event[1] == "key_up" and event[2] == key_multiplier then
 		handleMultiplier(false)
 	end
 end
