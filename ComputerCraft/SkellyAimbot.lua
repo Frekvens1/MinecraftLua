@@ -23,6 +23,18 @@ local mobs = { -- entity.name = {entity.displayName, isFriendly}
 	Spider = {"Spider", false},
 	CaveSpider = {"Cave Spider", false},
 	Slime = {"Slime", false},
+	Ghast = {"Ghast", false},
+	Blaze = {"Blaze", false},
+	Shulker = {"Shulker", false},
+	Endermite = {"Endermite", false},
+	Evoker = {"Evoker", false},
+	MagmaCube = {"Magma Cube", false},
+	Guardian = {"Guardian", false},
+	Husk = {"Husk", false},
+	Silverfish = {"Silverfish", false},
+	Stray = {"Stray", false},
+	Vex = {"Vex", false},
+	Witch = {"Witch", false},
 	
 	Bat = {"Bat", true},
 	Horse = {"Horse", true},
@@ -31,11 +43,26 @@ local mobs = { -- entity.name = {entity.displayName, isFriendly}
 	Sheep = {"Sheep", true},
 	Chicken = {"Chicken", true},
 	Squid = {"Squid", true},
+	Rabbit = {"Rabbit", true},
+	Donkey = {"Donkey", true},
+	Mushroom = {"Mushroom", true},
+	Llama = {"Llama", true},
+	Parrot = {"Parrot", true},
+	PolarBear = {"Polar Bear", true},
+	Mule = {"Mule", true},
+	SkeletonHorse = {"Skeleton Horse", true},
+	Ocelot = {"Ocelot", true},
+	Villager = {"Villager", true},
+	
+	PigZombie = {"Zombie Pigman", true},
+	Enderman = {"Enderman", true},
 }
 
 local ignore = {
 	Item = true,
+	Arrow = true,
 }
+ignore["pletgora:laser"] = true
 
 local function filter(entity)
 	
