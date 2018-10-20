@@ -1,12 +1,11 @@
 --    wget http://127.0.0.1/CC/SkellyAimbot.lua protec    --
-local master = "Frekvens1"
-
+local masters = {"Frekvens1"}
 interface = peripheral.find("neuralInterface")
-local meta = interface.getMetaOwner()
 
-if not meta.name == "Skeleton" then error("Entity must be a skeleton!") end
 if not interface.hasModule("plethora:kinetic", 0) then error("Must have a kinetic agument", 0) end
 if not interface.hasModule("plethora:sensor") then error("Must have a sensor", 0) end
+if not interface.hasModule("plethora:laser") then error("Must have a laser", 0) end
+if not interface.hasModule("plethora:introspection") then error("Must have a introspection", 0) end
 
 --[[ -- Super fast sleep --
 local function yield()
@@ -14,6 +13,8 @@ local function yield()
 	coroutine.yield( "sleep" )
 end
 --]]
+
+-- FUNCTIONS --
 
 local mobs = {
 	Zombie = "Zombie",
@@ -73,8 +74,13 @@ function Angle.towards(entity)
 	return yaw, pitch
 end
 
+-- VARIABLES --
+
+local meta = interface.getMetaOwner()
 interface.disableAI()
 buffer = Buffer()
+
+-- SOFTWARE START --
 
 while true do
 			
