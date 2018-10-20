@@ -34,7 +34,7 @@ local mobs = { -- entity.name = {entity.displayName, isFriendly}
 }
 
 local ignore = {
-	Item = "Item",
+	Item = true,
 }
 
 local function filter(entity)
@@ -43,8 +43,8 @@ local function filter(entity)
 		return false, "Self"
 	end
 	
-	if ignore[entity.name] == entity.displayName then
-	
+	if ignore[entity.name] then
+		return false, "Ignored"
 	end
 	
 	if not mobs[entity.name] then
@@ -112,7 +112,9 @@ while true do
 	buffer.print()
 	for k, entity in pairs(interface.sense()) do
 		hostile, tag = filter(entity)
-		buffer.add(entity.name..": "..tag.."("..entity.displayName..")")
+		if not (tag == "Ignored") then
+			buffer.add(entity.name..": "..tag.."("..entity.displayName..")")
+		end
 	end
 	
 	for k, entity in pairs(interface.sense()) do
