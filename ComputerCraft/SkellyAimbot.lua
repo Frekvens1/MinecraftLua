@@ -94,7 +94,7 @@ end
 
 -- VARIABLES --
 
-local meta = interface.getMetaOwner()
+meta = interface.getMetaOwner()
 interface.disableAI()
 buffer = Buffer()
 
@@ -106,12 +106,16 @@ while true do
 	for k, entity in pairs(interface.sense()) do
 		hostile, tag = filter(entity)
 		buffer.add(entity.name..": "..tag)
+	end
+	
+	for k, entity in pairs(interface.sense()) do
+		hostile, tag = filter(entity)
 		
 		if hostile then
-			entity = interface.sense()[k] -- Greater precision with multiple moving targets.
 			local yaw, pitch = Angle.towards(entity)
 			interface.look(yaw, pitch)
 			interface.fire(yaw, pitch, 0.5) --0.5 Doesn't destroy blocks, and weaker.
+			break
 		end
 	end	
 	
