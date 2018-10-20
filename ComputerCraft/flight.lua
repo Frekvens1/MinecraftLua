@@ -1,35 +1,16 @@
 local modules = peripheral.find("neuralInterface")
 local meta = modules.getMetaOwner()
 
-local pressed = false
-key = 76
-force = 3 -- 1-5
+local key_fly = 76
+local force_fly = 3 -- 1-4
+local key_launch = 57
+local force_launch = 1.5 -- 1-4
+
 
 function readTable(tb)
 	for k, v in pairs(tb) do
 		print(tostring(k)..": "..tostring(v))
 	end
-end
-
-hover = false
-
-function doHover()
-
-	while hover do
-		-- We calculate the required motion we need to take
-		local mY = meta.motionY
-		mY = (mY - 0.138) / 0.8
-
-		-- If it is sufficiently large then we fire ourselves in that direction.
-		if mY > 0.5 or mY < 0 then
-			local sign = 1
-			if mY < 0 then sign = -1 end
-				modules.launch(0, 90 * sign, math.min(4, math.abs(mY)))
-		else
-			sleep(0)
-		end
-	end
-	
 end
 
 
@@ -38,20 +19,13 @@ while true do
 	
 	--readTable(event)
 	
-	if event[1] == "key" and event[2] == key then
+	if event[1] == "key" and event[2] == key_fly then
 		if not pressed then
 			meta = modules.getMetaOwner()
-			modules.launch(meta.yaw, meta.pitch, 3)
-			
-			pressed = true
+			modules.launch(meta.yaw, meta.pitch, force_fly)
 		end
-	elseif event[1] == "key" and event[2] == 35 then
-		hover = true
+		
+	elseif event[1] == "key" and event[2] == key_launch then
+		modules.launch(meta.yaw, meta.pitch, force_launch)
 	end
-	
-	if event[1] == "key_up" and event[2] == key then
-		pressed = false
-	end
-	
-	doHover()
 end
