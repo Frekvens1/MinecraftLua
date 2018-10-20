@@ -56,11 +56,13 @@ local mobs = { -- entity.name = {entity.displayName, isFriendly}
 	
 	PigZombie = {"Zombie Pigman", true},
 	Enderman = {"Enderman", true},
+	VillagerGolem = {"Iron Golem", true},
 }
 
 local ignore = {
 	Item = true,
 	Arrow = true,
+	ItemFrame = true,
 }
 ignore["pletgora:laser"] = true
 
