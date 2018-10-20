@@ -28,7 +28,8 @@ function handleMultiplier(mode)
 		canvas = modules.canvas()
 		
 		canvas.clear()
-		canvas.addText({x=10, y=10}, "Multiplier mode: "..tostring(mode), colors.black, 4)
+		local text = canvas.addText({x=1, y=1}, "Multiplier mode: "..tostring(mode))
+		text.setScale(3)
 	end
 	
 	if mode then
