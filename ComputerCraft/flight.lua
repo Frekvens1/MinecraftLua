@@ -18,6 +18,12 @@ function readTable(tb)
 end
 
 function handleMultiplier(mode)
+	if mode then
+		multiplier_now = multiplier
+	else
+		multiplier = 1
+	end
+	
 	if not (multiplier_mode == mode) then
 		return nil
 	end
@@ -30,12 +36,6 @@ function handleMultiplier(mode)
 		canvas.clear()
 		local text = canvas.addText({x=1, y=1}, "Multiplier mode: "..tostring(mode))
 		text.setScale(3)
-	end
-	
-	if mode then
-		multiplier_now = multiplier
-	else
-		multiplier = 1
 	end
 end
 
