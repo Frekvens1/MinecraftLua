@@ -2,6 +2,7 @@
 local master = "Frekvens1"
 
 interface = peripheral.find("neuralInterface")
+local meta = interface.getMetaOwner()
 
 if not meta.name == "Skeleton" then error("Entity must be a skeleton!") end
 if not interface.hasModule("plethora:kinetic", 0) then error("Must have a kinetic agument", 0) end
@@ -72,7 +73,6 @@ function Angle.towards(entity)
 	return yaw, pitch
 end
 
-local meta = interface.getMetaOwner()
 interface.disableAI()
 buffer = Buffer()
 
