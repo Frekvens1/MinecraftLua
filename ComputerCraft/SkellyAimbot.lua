@@ -16,26 +16,44 @@ end
 
 -- FUNCTIONS --
 
-local mobs = {
-	Zombie = "Zombie",
-	Skeleton = "Skeleton",
-	Creeper = "Creeper",
-	Spider = "Spider",
-	CaveSpider = "Cave Spider",
-	Slime = "Slime"
+local mobs = { -- entity.name = {entity.displayName, isFriendly}
+	Zombie = {"Zombie", false}, 
+	Skeleton = {"Skeleton", false},
+	Creeper = {"Creeper", false},
+	Spider = {"Spider", false},
+	CaveSpider = {"Cave Spider", false},
+	Slime = {"Slime", false},
+	
+	Bat = {"Bat", true},
+	Horse = {"Horse", true},
+	Pig = {"Pig", true},
+	Cow = {"Cow", true},
+	Sheep = {"Sheep", true},
+	Chicken = {"Chicken", true},
+	Squid = {"Squid", true},
 }
 
 
 local function filter(entity)
-	if mobs[entity.name] then
-		if mobs[entity.name] == entity.displayName then
-			return true, entity.name
-		else
-			return false, "Friendly"
-		end
-	else
+	
+	if entity.id == meta.id then
+		return false, "Self"
+	end
+	
+	if not mobs[entity.name] then
 		return false, "Player"
 	end
+	
+	if not (mobs[entity.name][1] == entity.displayName) then
+		return false, "Named"
+	end
+	
+	if (mobs[entity.name][2]) then
+		return false, "Friendly"
+	end 
+	
+	return true, "Hostile"
+
 end
 
 
@@ -86,7 +104,7 @@ while true do
 			
 	buffer.print()
 	for k, entity in pairs(interface.sense()) do
-		if filter(entity) and not (entity.id == meta.id) then
+		if filter(entity) then
 			buffer.add(entity.name)
 							
 			local yaw, pitch = Angle.predict(entity)
