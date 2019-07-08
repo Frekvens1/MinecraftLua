@@ -24,19 +24,16 @@ local files = {
 	get("https://raw.githubusercontent.com/Frekvens1/MinecraftLua/master/Computronics/Golang/dfpwm/OliverTree_Alie%20Boy.dfpwm")
 }
 
-
-while true do
-	for i=1, #files, 1 do
-		tape.stop()
-		tape.seek(-tape.getPosition()) -- Rewind
+for i=1, #files, 1 do
+	tape.stop()
+	tape.seek(-tape.getPosition()) -- Rewind
 		
-		tape.write(files[i])
+	tape.write(files[i])
 		
-		tape.seek(-tape.getPosition()) -- Rewind
-		tape.play()
+	tape.seek(-tape.getPosition()) -- Rewind
+	tape.play()
 		
-		while not ((tape.getPosition() >= #files[i]) or tape.isEnd()) do
-			os.sleep(1)
-		end
+	while not ((tape.getPosition() >= #files[i]) or tape.isEnd()) do
+		os.sleep(1)
 	end
 end
