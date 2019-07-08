@@ -26,6 +26,7 @@ local files = {
 	get("https://raw.githubusercontent.com/Frekvens1/MinecraftLua/master/Computronics/Golang/dfpwm/Kaivon%20-%20Reborn.dfpwm"),
 	--get("https://raw.githubusercontent.com/Frekvens1/MinecraftLua/master/Computronics/Golang/dfpwm/Trololo.dfpwm"),
 	get("https://raw.githubusercontent.com/Frekvens1/MinecraftLua/master/Computronics/Golang/dfpwm/miss_kobayashis_dragon_maid_opening.dfpwm"),
+	get("https://raw.githubusercontent.com/Frekvens1/MinecraftLua/master/Computronics/Golang/dfpwm/Pirates%20Of%20The%20Caribbean%20Theme%20Song.dfpwm"),
 	--get("https://raw.githubusercontent.com/Frekvens1/MinecraftLua/master/Computronics/Golang/dfpwm/"),
 }
 
