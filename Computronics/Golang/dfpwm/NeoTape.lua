@@ -31,7 +31,7 @@ function drawNavigation()
 	screen.setCursorPos(1,1)
 	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray) 
 	paintutils.drawFilledBox(0, 7, 16, 10, colors.lightBlue) -- Back
-	ïf (isPaused) then
+	if (isPaused) then
 		paintutils.drawFilledBox(0, 17, 20, 10, colors.red) -- Pause
 	else	
 		paintutils.drawFilledBox(0, 17, 20, 10, colors.green) -- Unpause
