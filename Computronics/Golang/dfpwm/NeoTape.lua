@@ -35,6 +35,10 @@ local files = {
 		"Fallen Kingdom",
 	},
 	{
+		get("https://raw.githubusercontent.com/Frekvens1/MinecraftLua/master/Computronics/Golang/dfpwm/RunningToNever.dfpwm"),
+		"Take Back the Night",
+	},
+	{
 		get("https://raw.githubusercontent.com/Frekvens1/MinecraftLua/master/Computronics/Golang/dfpwm/RISE.dfpwm"),
 		"Rise - League of Legends",
 	},
