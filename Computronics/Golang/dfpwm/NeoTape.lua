@@ -106,7 +106,7 @@ while running do
 			if (y>6) then
 				if (x<16) then
 					id = id - 2
-				elseif ((x>16) && (x<21)) then
+				elseif ((x>16) and (x<21)) then
 					if (isPaused) then
 						isPaused = false
 						tape.play()
