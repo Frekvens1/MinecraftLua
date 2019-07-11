@@ -30,14 +30,14 @@ function drawNavigation()
 	screen.clear()
 	screen.setCursorPos(1,1)
 	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray) 
-	paintutils.drawFilledBox(0, 7, 16, 10, colors.lightBlue) -- Back
+	paintutils.drawFilledBox(0, 7, 15, 10, colors.lightBlue) -- Back
 	if (isPaused) then
-		paintutils.drawFilledBox(0, 17, 20, 10, colors.red) -- Pause
+		paintutils.drawFilledBox(16, 7, 21, 10, colors.red) -- Pause
 	else	
-		paintutils.drawFilledBox(0, 17, 20, 10, colors.green) -- Unpause
+		paintutils.drawFilledBox(16, 7, 21, 10, colors.green) -- Unpause
 	end
 	
-	paintutils.drawFilledBox(21, 7, 36, 10, colors.orange)-- Forward
+	paintutils.drawFilledBox(22, 7, 36, 10, colors.orange)-- Forward
 	
 	screen.setBackgroundColor(colors.lightGray)
 	screen.setTextColor(colors.black)
@@ -104,9 +104,9 @@ while running do
 		if (event == "monitor_touch") then
 			
 			if (y>6) then
-				if (x<16) then
+				if (x<=15) then
 					id = id - 2
-				elseif ((x>16) and (x<21)) then
+				elseif ((x>=15) and (x<=22)) then
 					if (isPaused) then
 						isPaused = false
 						tape.play()
