@@ -25,8 +25,9 @@ end
 
 function drawNavigation()
 	term.redirect( screen )
-	paintutils.drawFilledBox(0, 6, 18, 10, colors.lightBlue)
-	paintutils.drawFilledBox(18, 6, 36, 10, colors.orange)
+	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray)
+	paintutils.drawFilledBox(0, 7, 18, 10, colors.lightBlue)
+	paintutils.drawFilledBox(18, 7, 36, 10, colors.orange)
 	term.restore()
 end
 
