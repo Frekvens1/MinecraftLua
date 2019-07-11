@@ -1,5 +1,6 @@
 tape = peripheral.find("tape_drive")
 screen = peripheral.find("monitor")
+term.redirect( screen )
 
 screen.setTextScale(0.5)
 screen.clear()
@@ -24,11 +25,12 @@ function get(url)
 end
 
 function drawNavigation()
-	term.redirect( screen )
+	screen.clear()
+	screen.setCursorPos(1,1)
 	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray)
 	paintutils.drawFilledBox(0, 7, 18, 10, colors.lightBlue)
 	paintutils.drawFilledBox(18, 7, 36, 10, colors.orange)
-	term.restore()
+	screen.setCursorPos(1,1)
 end
 
 
@@ -70,15 +72,13 @@ while running do
 		id = #files
 	end
 	
-	screen.clear()
-	screen.setCursorPos(1,1)
-	
+	drawNavigation()
 	screen.write("Currently playing:")
 	
 	screen.setCursorPos(1,2)
 	screen.write(files[id][2])
 	
-	drawNavigation()
+	
 	
 	tape.stop()
 	tape.seek(-tape.getPosition()) -- Rewind
