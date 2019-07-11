@@ -26,10 +26,17 @@ function get(url)
 	return result
 end
 
-function drawNavigation()
+function drawNavigation(files, id)
 	screen.clear()
 	screen.setCursorPos(1,1)
-	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray) 
+	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray)
+	
+	screen.setCursorPos(1,1)
+	screen.write("Currently playing:")
+	
+	screen.setCursorPos(1,2)
+	screen.write(files[id][2])
+	
 	paintutils.drawFilledBox(0, 7, 15, 10, colors.lightBlue) -- Back
 	if (isPaused) then
 		paintutils.drawFilledBox(16, 7, 21, 10, colors.green) -- Pause
@@ -84,12 +91,8 @@ while running do
 		id = #files
 	end
 	
-	drawNavigation()
-	screen.write("Currently playing:")
-	
-	screen.setCursorPos(1,2)
-	screen.write(files[id][2])
-	
+	drawNavigation(files, id)
+
 	tape.stop()
 	tape.seek(-tape.getPosition()) -- Rewind
 		
@@ -116,6 +119,9 @@ while running do
 						isPaused = true
 						tape.stop()
 					end
+					
+					drawNavigation(files, id)
+					
 				else
 					if (id == #files) then
 						id = 1
