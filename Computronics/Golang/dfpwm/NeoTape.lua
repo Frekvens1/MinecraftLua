@@ -1,4 +1,9 @@
 tape = peripheral.find("tape_drive")
+screen = peripheral.find("screen")
+
+screen.setTextScale(0.5)
+screen.clear()
+screen.setCursorPos(1,1)
 
 function get(url)
 	local result = nil
@@ -37,11 +42,13 @@ local files = {
 
 for i=1, #files, 1 do
 
-	term.clear()
-	term.setCursorPos(1,1)
+	screen.clear()
+	screen.setCursorPos(1,1)
 	
-	print("Currently playing:")
-	print(files[i][2])
+	screen.write("Currently playing:")
+	
+	screen.setCursorPos(1,2)
+	screen.write(files[i][2])
 	
 	tape.stop()
 	tape.seek(-tape.getPosition()) -- Rewind
