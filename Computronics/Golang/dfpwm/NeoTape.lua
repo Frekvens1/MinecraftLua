@@ -70,11 +70,12 @@ for i=1, #files, 1 do
 			print("X: "..x.."|Y: "..y)
 			
 			if (y>6) then
-				if (x<19) then
-					i = i - 1
+				if (x<=18) then
+					i = i - 2
 				else
 					i = i + 1
 				end
+				break
 			end
 		end
 	end
