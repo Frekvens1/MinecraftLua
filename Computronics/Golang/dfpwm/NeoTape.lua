@@ -114,7 +114,7 @@ while running do
 					id = id - 2
 					break
 					
-				elseif ((x>=15) and (x<=22)) then
+				elseif ((x>=15) and (x<=21)) then
 					if (isPaused) then
 						isPaused = false
 						tape.play()
@@ -128,8 +128,9 @@ while running do
 				else
 					if (id == #files) then
 						id = 1
-						break
 					end
+					
+					break
 				end
 				
 			end
