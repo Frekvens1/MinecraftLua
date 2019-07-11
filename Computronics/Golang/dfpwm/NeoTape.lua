@@ -29,7 +29,11 @@ function drawNavigation()
 	screen.setCursorPos(1,1)
 	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray)
 	paintutils.drawFilledBox(0, 7, 18, 10, colors.lightBlue)
-	paintutils.drawFilledBox(18, 7, 36, 10, colors.orange)
+	paintutils.drawFilledBox(19, 7, 36, 10, colors.orange)
+	
+	screen.setBackgroundColor(colors.lightGray)
+	screen.setTextColor(colors.black)
+	
 	screen.setCursorPos(1,1)
 end
 
@@ -94,7 +98,7 @@ while running do
 		if (event == "monitor_touch") then
 			
 			if (y>6) then
-				if (x<=18) then
+				if (x<=19) then
 					id = id - 2
 				else
 					if (id == #files) then
