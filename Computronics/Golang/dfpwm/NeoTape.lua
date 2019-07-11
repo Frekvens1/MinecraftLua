@@ -68,6 +68,14 @@ for i=1, #files, 1 do
 		if (event == "monitor_touch") then
 			print("Mouse click!")
 			print("X: "..x.."|Y: "..y)
+			
+			if (y>6) then
+				if (x<19) then
+					i = i - 1
+				else
+					i = i + 1
+				end
+			end
 		end
 	end
 end
