@@ -24,10 +24,10 @@ function get(url)
 end
 
 function drawNavigation()
-
+	term.redirect( screen )
 	paintutils.drawFilledBox(0, 6, 18, 10, colors.lightBlue)
 	paintutils.drawFilledBox(18, 6, 36, 10, colors.orange)
-
+	term.restore()
 end
 
 
