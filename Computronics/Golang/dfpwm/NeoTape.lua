@@ -44,8 +44,19 @@ local files = {
 	},
 }
 
-for i=1, #files, 1 do
+id = 1
+running = true
+while running do
 
+	if (i > #files) then
+		running = false
+		break
+	end
+	
+	if (i <= 0) then
+		i = #files
+	end
+	
 	screen.clear()
 	screen.setCursorPos(1,1)
 	
@@ -71,14 +82,13 @@ for i=1, #files, 1 do
 			
 			if (y>6) then
 				if (x<=18) then
-					i = i - 2
-					print("Less")
-				else
-					i = i + 1
-					print("More")
+					id = id - 2
 				end
 				break
 			end
+			
 		end
 	end
+	
+	id = id + 1
 end
