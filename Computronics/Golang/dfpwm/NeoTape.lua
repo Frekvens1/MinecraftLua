@@ -48,13 +48,13 @@ id = 1
 running = true
 while running do
 
-	if (i > #files) then
+	if (id > #files) then
 		running = false
 		break
 	end
 	
-	if (i <= 0) then
-		i = #files
+	if (id <= 0) then
+		id = #files
 	end
 	
 	screen.clear()
@@ -63,17 +63,17 @@ while running do
 	screen.write("Currently playing:")
 	
 	screen.setCursorPos(1,2)
-	screen.write(files[i][2])
+	screen.write(files[id][2])
 	
 	tape.stop()
 	tape.seek(-tape.getPosition()) -- Rewind
 		
-	tape.write(files[i][1])
+	tape.write(files[id][1])
 		
 	tape.seek(-tape.getPosition()) -- Rewind
 	tape.play()
 		
-	while not ((tape.getPosition() >= #files[i][1]) or tape.isEnd()) do
+	while not ((tape.getPosition() >= #files[id][1]) or tape.isEnd()) do
 		os.startTimer(1)
 		local event, button, x, y = os.pullEvent()
 		if (event == "monitor_touch") then
