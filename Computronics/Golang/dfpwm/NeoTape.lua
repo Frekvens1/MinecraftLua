@@ -1,5 +1,5 @@
 tape = peripheral.find("tape_drive")
-screen = peripheral.find("screen")
+screen = peripheral.find("monitor")
 
 screen.setTextScale(0.5)
 screen.clear()
