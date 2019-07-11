@@ -32,9 +32,9 @@ function drawNavigation()
 	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray) 
 	paintutils.drawFilledBox(0, 7, 15, 10, colors.lightBlue) -- Back
 	if (isPaused) then
-		paintutils.drawFilledBox(16, 7, 21, 10, colors.red) -- Pause
+		paintutils.drawFilledBox(16, 7, 21, 10, colors.green) -- Pause
 	else	
-		paintutils.drawFilledBox(16, 7, 21, 10, colors.green) -- Unpause
+		paintutils.drawFilledBox(16, 7, 21, 10, colors.red) -- Unpause
 	end
 	
 	paintutils.drawFilledBox(22, 7, 36, 10, colors.orange)-- Forward
@@ -106,6 +106,8 @@ while running do
 			if (y>6) then
 				if (x<=15) then
 					id = id - 2
+					break
+					
 				elseif ((x>=15) and (x<=22)) then
 					if (isPaused) then
 						isPaused = false
@@ -117,9 +119,10 @@ while running do
 				else
 					if (id == #files) then
 						id = 1
+						break
 					end
 				end
-				break
+				
 			end
 			
 		end
