@@ -91,6 +91,7 @@ running = true
 while running do
 
 	if (id > #files) then
+		tape.stop()
 		running = false
 		break
 	end
