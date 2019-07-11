@@ -31,6 +31,8 @@ function drawNavigation(files, id)
 	screen.setCursorPos(1,1)
 	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray)
 	
+	screen.setBackgroundColor(colors.lightGray)
+	
 	screen.setCursorPos(1,1)
 	screen.write("Currently playing:")
 	
@@ -38,6 +40,8 @@ function drawNavigation(files, id)
 	screen.write(files[id][2])
 	
 	paintutils.drawFilledBox(0, 7, 15, 10, colors.lightBlue) -- Back
+	
+	screen.setBackgroundColor(colors.lightGray)
 	if (isPaused) then
 		paintutils.drawFilledBox(16, 7, 21, 10, colors.green) -- Pause
 		
