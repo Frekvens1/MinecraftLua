@@ -36,7 +36,7 @@ local files = {
 	},
 	{
 		get("https://raw.githubusercontent.com/Frekvens1/MinecraftLua/master/Computronics/Golang/dfpwm/RunningToNever.dfpwm"),
-		"Take Back the Night",
+		"Running to Never",
 	},
 	{
 		get("https://raw.githubusercontent.com/Frekvens1/MinecraftLua/master/Computronics/Golang/dfpwm/RISE.dfpwm"),
@@ -87,6 +87,10 @@ while running do
 			if (y>6) then
 				if (x<=18) then
 					id = id - 2
+				else
+					if (id == #files) then
+						id = 1
+					end
 				end
 				break
 			end
