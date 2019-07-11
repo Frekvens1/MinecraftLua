@@ -40,7 +40,8 @@ for i=1, #files, 1 do
 	term.clear()
 	term.setCursorPos(1,1)
 	
-	print("Currently playing "..files[i][2])
+	print("Currently playing:")
+	print(files[i][2]=
 	
 	tape.stop()
 	tape.seek(-tape.getPosition()) -- Rewind
