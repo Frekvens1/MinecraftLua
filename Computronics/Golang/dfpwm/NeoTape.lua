@@ -40,6 +40,9 @@ function drawNavigation(files, id)
 	paintutils.drawFilledBox(0, 7, 15, 10, colors.lightBlue) -- Back
 	if (isPaused) then
 		paintutils.drawFilledBox(16, 7, 21, 10, colors.green) -- Pause
+		
+		screen.setCursorPos(1,4)
+		screen.write("PAUSED!")
 	else	
 		paintutils.drawFilledBox(16, 7, 21, 10, colors.red) -- Unpause
 	end
