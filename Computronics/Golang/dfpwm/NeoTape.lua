@@ -5,8 +5,6 @@ screen.setTextScale(0.5)
 screen.clear()
 screen.setCursorPos(1,1)
 
-drawNavigation()
-
 function get(url)
 	local result = nil
 	
@@ -60,6 +58,7 @@ local files = {
 
 id = 1
 running = true
+
 while running do
 
 	if (id > #files) then
