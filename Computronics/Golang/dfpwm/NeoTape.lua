@@ -32,6 +32,7 @@ function drawNavigation(files, id)
 	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray)
 	
 	screen.setBackgroundColor(colors.lightGray)
+	screen.setTextColor(colors.black)
 	
 	screen.setCursorPos(1,1)
 	screen.write("Currently playing:")
