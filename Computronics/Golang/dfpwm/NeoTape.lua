@@ -72,8 +72,10 @@ for i=1, #files, 1 do
 			if (y>6) then
 				if (x<=18) then
 					i = i - 2
+					print("Less")
 				else
 					i = i + 1
+					print("More")
 				end
 				break
 			end
