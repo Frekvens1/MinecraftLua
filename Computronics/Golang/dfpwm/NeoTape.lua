@@ -6,6 +6,8 @@ screen.setTextScale(0.5)
 screen.clear()
 screen.setCursorPos(1,1)
 
+isPaused = false
+
 function get(url)
 	local result = nil
 	
@@ -27,9 +29,15 @@ end
 function drawNavigation()
 	screen.clear()
 	screen.setCursorPos(1,1)
-	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray)
-	paintutils.drawFilledBox(0, 7, 18, 10, colors.lightBlue)
-	paintutils.drawFilledBox(19, 7, 36, 10, colors.orange)
+	paintutils.drawFilledBox(0, 0, 36, 10, colors.lightGray) 
+	paintutils.drawFilledBox(0, 7, 16, 10, colors.lightBlue) -- Back
+	ïf (isPaused) then
+		paintutils.drawFilledBox(0, 17, 20, 10, colors.red) -- Pause
+	else	
+		paintutils.drawFilledBox(0, 17, 20, 10, colors.green) -- Unpause
+	end
+	
+	paintutils.drawFilledBox(21, 7, 36, 10, colors.orange)-- Forward
 	
 	screen.setBackgroundColor(colors.lightGray)
 	screen.setTextColor(colors.black)
@@ -82,8 +90,6 @@ while running do
 	screen.setCursorPos(1,2)
 	screen.write(files[id][2])
 	
-	
-	
 	tape.stop()
 	tape.seek(-tape.getPosition()) -- Rewind
 		
@@ -98,8 +104,16 @@ while running do
 		if (event == "monitor_touch") then
 			
 			if (y>6) then
-				if (x<=19) then
+				if (x<16) then
 					id = id - 2
+				elseif ((x>16) && (x<21)) then
+					if (isPaused) then
+						isPaused = false
+						tape.play()
+					else
+						isPaused = true
+						tape.stop()
+					end
 				else
 					if (id == #files) then
 						id = 1
