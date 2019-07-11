@@ -64,11 +64,9 @@ for i=1, #files, 1 do
 		
 	while not ((tape.getPosition() >= #files[i][1]) or tape.isEnd()) do
 		local event, button, x, y = os.pullEvent()
-		print(event)
-		if (event == "mouse_click") then
+		if (event == "monitor_touch") then
 			print("Mouse click!")
-		else
-			print("Something else happened!")
+			print("X: "..x.."|Y: "..y)
 		end
 	end
 end
