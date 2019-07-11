@@ -23,6 +23,13 @@ function get(url)
 	return result
 end
 
+function drawNavigation()
+
+	paintutils.drawFilledBox(0, 6, 18, 10, colors.lightBlue)
+	paintutils.drawFilledBox(18, 6, 36, 10, colors.orange)
+
+end
+
 
 local files = {
 	--get("https://raw.githubusercontent.com/Frekvens1/MinecraftLua/master/Computronics/Golang/dfpwm/"),
@@ -68,6 +75,8 @@ while running do
 	
 	screen.setCursorPos(1,2)
 	screen.write(files[id][2])
+	
+	drawNavigation()
 	
 	tape.stop()
 	tape.seek(-tape.getPosition()) -- Rewind
