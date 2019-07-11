@@ -5,6 +5,8 @@ screen.setTextScale(0.5)
 screen.clear()
 screen.setCursorPos(1,1)
 
+drawNavigation()
+
 function get(url)
 	local result = nil
 	
@@ -91,8 +93,6 @@ while running do
 		os.startTimer(1)
 		local event, button, x, y = os.pullEvent()
 		if (event == "monitor_touch") then
-			print("Mouse click!")
-			print("X: "..x.."|Y: "..y)
 			
 			if (y>6) then
 				if (x<=18) then
