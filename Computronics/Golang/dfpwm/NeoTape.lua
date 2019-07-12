@@ -108,7 +108,9 @@ while running do
 	tape.write(files[id][1])
 		
 	tape.seek(-tape.getPosition()) -- Rewind
-	tape.play()
+	if not (isPaused) then
+		tape.play()
+	end
 		
 	while not ((tape.getPosition() >= #files[id][1]) or tape.isEnd()) do
 		os.startTimer(1)
@@ -133,7 +135,7 @@ while running do
 					
 				else
 					if (id == #files) then
-						id = 1
+						id = 0
 					end
 					
 					break
