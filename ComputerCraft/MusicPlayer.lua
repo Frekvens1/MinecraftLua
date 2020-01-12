@@ -7,6 +7,7 @@ menuid = 0
 soundFile = {}
 maxTicks = 0
 currentSong = ""
+speakers = {}
 
 function play(song)
 
@@ -16,7 +17,12 @@ function play(song)
 		f.close()
 		
 		soundFile = textutils.unserialize(file)
-		speaker = peripheral.find("speaker")
+		
+		for _, name in pairs(peripheral.getNames()) do
+			if (peripheral.getType(name) == "speaker") then
+				table.insert(speakers, peripheral.wrap(name))
+			end
+		end
 		
 		currentSong = soundFile.n
 		drawGUI()
@@ -80,7 +86,10 @@ function play(song)
 				
 				for n=1, #tone.n, 1 do
 					note = tone.n[n]
-					speaker.playNote(getInstrument(note.i), volume, note.n)
+					
+					for _, speaker in pairs(speakers) do
+						speaker.playNote(getInstrument(note.i), volume, note.n)
+					end
 				end
 				
 				if (menuid == 0) then
