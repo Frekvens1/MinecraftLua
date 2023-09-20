@@ -1,0 +1,761 @@
+--[[ 
+This is some buggy old concept code. It was never intended to be released since this hasn't been cleaned up at all.
+You can take inspiration from this mess if you fancy, and good luck understanding it!
+ 
+If you want to watch it in action:
+https://www.youtube.com/watch?v=8b9IFxwNYe4
+ 
+It was written for 'ComputerCraft1.80pr1.jar' for Forge (14.23.5.2770) on Minecraft version 1.12.2.
+ 
+It uses redstone wires from ProjectRed to output / input redstone signals.
+--]]
+
+--153, 149, 140
+
+inactive_color = colors.black
+active_color = colors.red
+storedValues = {}
+debug_mode = true
+
+file = {}
+function update()
+	if fs.exists("program") then
+		-- fs.delete("program")
+	end
+	
+	-- shell.run("wget http://127.0.0.1/CC/program.il program")
+	
+	f = fs.open("program", "r")
+	file = split(string.upper(f.readAll()), "\n")
+	f.close()
+end
+
+
+function split(variable, splitting)
+	local result = {}
+	
+	if (string.len(splitting) < 0) then
+		return result
+	end
+	
+	local current_string = ""
+	for i=1, string.len(variable), 1 do
+		letter = string.sub(variable, i, i)
+
+		if (letter == splitting) then
+			table.insert(result, current_string)
+			current_string = ""
+		else
+			current_string = current_string..letter
+		end
+	end
+	
+	table.insert(result, current_string)
+	current_string = ""
+	
+	return result
+end
+
+function endsWith(variable, check)
+	local count = string.len(variable)
+	if (string.sub(variable, count, count) == check) then
+		return true
+	else
+		return false
+	end
+end
+
+function clear(mode)
+	
+	color1 = colors.cyan
+	color2 = colors.black
+	
+	if mode then
+		color1 = colors.cyan
+		color2 = colors.black
+	end
+
+	term.setBackgroundColor(color1)
+	term.setTextColor(color2)
+	term.clear()
+	term.setCursorPos(1,1)
+end
+
+-- DRAWING CONTROLS --
+
+function switchColors()
+	local old_background = term.getBackgroundColor()
+	local old_text = term.getTextColor()
+	
+	term.setBackgroundColor(old_text)
+	term.setTextColor(old_background)
+end
+
+function drawNO(x, y, active, block_id, sequence_id)
+	local x = x + offsetX
+	local y = y + offsetY
+	
+	if active and chainActive(block_id, sequence_id-1) and debug_mode then
+		term.setTextColor(active_color)
+	end
+	
+	term.setCursorPos(x, y)
+	term.write(string.char(140, 140, 140, 140, 149, 0, 149, 140, 140, 140))
+	
+	switchColors()
+	term.setCursorPos(x+6, y)
+	term.write(string.char(149))
+	
+	switchColors()
+	
+	if debug_mode then
+		if chainActive(block_id, sequence_id-1) then
+			term.setTextColor(active_color)
+			term.setCursorPos(x, y)
+			term.write(string.char(140, 140, 140, 140))
+		end
+	end
+	
+	term.setTextColor(inactive_color)
+end
+
+function drawNC(x, y, active, block_id, sequence_id)
+	local x = x + offsetX
+	local y = y + offsetY
+	
+	if active and chainActive(block_id, sequence_id-1) and debug_mode then
+		term.setTextColor(active_color)
+	end
+	
+	term.setCursorPos(x, y)
+	term.write(string.char(140, 140, 140, 140, 157, 47, 149, 140, 140, 140))
+	
+	switchColors()
+	term.setCursorPos(x+4, y)
+	term.write(string.char(138))
+	
+	term.setCursorPos(x+6, y)
+	term.write(string.char(148))
+	
+	switchColors()
+	
+	if debug_mode then
+		if chainActive(block_id, sequence_id-1) then
+			term.setTextColor(active_color)
+			term.setCursorPos(x, y)
+			term.write(string.char(140, 140, 140, 140))
+		end
+	end
+	
+	term.setTextColor(inactive_color)
+end
+
+function drawCoil(x, y, detail, active, block_id, sequence_id)
+	local x = x + offsetX
+	local y = y + offsetY
+	
+	if chainActive(block_id, sequence_id-1) and debug_mode then
+		term.setTextColor(active_color)
+	end
+	
+	term.setCursorPos(x, y)
+	term.write(string.char(140, 140, 140, 140, 0, 0, 0, 0, 140, 140, 140))
+	
+	switchColors()
+	term.setCursorPos(x+4, y)
+	term.write(string.char(153))
+	
+	term.setCursorPos(x+7, y)
+	term.write(string.char(157))
+	
+	switchColors()
+	
+	if debug_mode then
+		if chainActive(block_id, sequence_id-1) then
+			term.setTextColor(active_color)
+			term.setCursorPos(x, y)
+			term.write(string.char(140, 140, 140, 140))
+		end
+	end
+	
+	term.setTextColor(inactive_color)
+	
+	term.setCursorPos(x+6, y)
+	term.write(detail)
+	
+end
+
+function drawLineDown(x, y, count, invert, col)
+	local old_color = term.getTextColor()
+	if col then
+		term.setTextColor(col)
+	end
+	
+	local x = x + offsetX
+	local y = y + offsetY
+	
+	if not invert then
+		switchColors()
+	end
+	
+	for i=y, y+count, 1 do
+		term.setCursorPos(x, i)
+		term.write(string.char(149))
+	end
+	
+	if not invert then
+		switchColors()
+	end
+	
+	term.setTextColor(old_color)
+end
+
+function drawLineForward(x, y, count, col)
+	local old_color = term.getTextColor()
+	if col then
+		term.setTextColor(col)
+	end
+	
+	local x = x + offsetX
+	local y = y + offsetY
+	
+	for i=x, x+count, 1 do
+		term.setCursorPos(i, y)
+		term.write(string.char(140))
+	end
+	
+	term.setTextColor(old_color)
+end
+
+function connectUp(x, y, col)
+	local old_color = term.getTextColor()
+	if col then
+		term.setTextColor(col)
+	end
+	
+	local x = x + offsetX
+	local y = y + offsetY
+	
+	switchColors()
+	term.setCursorPos(x, y)
+	term.write(string.char(147))
+	switchColors()
+	
+	term.setTextColor(old_color)
+end
+
+function connectDown(x, y, col)
+	local old_color = term.getTextColor()
+	if col then
+		term.setTextColor(col)
+	end
+	
+	local x = x + offsetX
+	local y = y + offsetY
+	
+	term.setCursorPos(x, y)
+	term.write(string.char(138))
+	
+	term.setTextColor(old_color)
+end
+
+function connectMiddle(x, y, col)
+	local old_color = term.getTextColor()
+	if col then
+		term.setTextColor(col)
+	end
+	
+	local x = x + offsetX
+	local y = y + offsetY
+	
+	switchColors()
+	term.setCursorPos(x, y)
+	term.write(string.char(145))
+	switchColors()
+	
+	term.setTextColor(old_color)
+end
+
+function connectDown2(x, y, col)
+	local old_color = term.getTextColor()
+	if col then
+		term.setTextColor(col)
+	end
+	
+	local x = x + offsetX
+	local y = y + offsetY
+	
+	term.setCursorPos(x, y)
+	term.write(string.char(142))
+	
+	term.setTextColor(old_color)
+end
+
+-- DEMO --
+
+function DEMO()
+	drawLineDown(2, 1, height)
+	drawNC(3, 2)
+
+	drawNO(12, 2)
+	drawNO(12, 4)
+	drawLineDown(11, 2, 2)
+	drawLineDown(20, 2, 2)
+	connectUp(11, 2)
+	connectDown(11, 4)
+
+	connectDown2(20, 4)
+	connectUp(20, 2)
+
+	drawNO(21, 2)
+	drawNC(21, 4)
+	drawNO(21, 6)
+
+	drawLineDown(20, 2, 4)
+	drawLineDown(29, 2, 4)
+
+	connectUp(20, 2)
+	connectUp(29, 2)
+
+	connectDown(20, 6)
+	connectDown2(29, 6)
+
+	connectMiddle(20, 4)
+	connectMiddle(29, 4)
+
+	drawCoil(30, 2, "Q")
+
+	drawNO(3, 8)
+	drawLineForward(9, 8, 20)
+	drawCoil(30, 8, "Q")
+	drawLineDown(40, 1, height, true)
+end
+
+-- BLOCK DATA --
+
+function Block(mode, unit, x, y, block_id, sequence_id, chain_id)
+	
+	local self = {}
+	
+	self.mode = mode
+	self.unit = unit
+	self.x = x
+	self.y = y
+	self.active = false
+	self.last_active = false
+	
+	self.block_id = block_id
+	self.sequence_id = sequence_id
+	self.chain_id = chain_id
+	
+	function self.draw()
+		self.last_active = chainActive(self.block_id, self.sequence_id-1)
+		term.setCursorPos(self.x+5+offsetX, self.y-1+offsetY)
+		term.write(unit)
+		
+		if mode == "OUT" then
+			storedValues[self.unit] = self.last_active
+			drawCoil(self.x, self.y, "Q", self.active, block_id, sequence_id)
+			
+		else
+			if endsWith(mode, "I") then
+				drawNC(self.x, self.y, (not self.active), block_id, sequence_id)
+				
+			else
+				drawNO(self.x, self.y, self.active, block_id, sequence_id)
+			end
+			
+		end
+			
+		self.drawn = true
+	
+	end
+	
+	return self
+	
+end
+
+-- INTERAL FUNCTIONS --
+
+function isDropable(var_now, prev_block)
+	var_prev = ""
+	if prev_block then
+		var_prev = split(prev_block, " ")[1]
+	end
+
+	if ( (var_now == "OR") or (var_now == "ORI") ) then
+		return true
+	
+	elseif ( (var_now == "SET") and ( (var_prev == "SET") or (var_prev == "RST") or (var_prev == "OUT") ) ) then
+		return true
+		
+	elseif ( (var_now == "RST") and ( (var_prev == "SET") or (var_prev == "RST") or (var_prev == "OUT") ) ) then
+		return true
+		
+	elseif ( (var_now == "OUT") and ( (var_prev == "SET") or (var_prev == "RST") or (var_prev == "OUT") ) ) then
+		return true
+	end
+	
+	return false
+
+end
+
+dict = {}
+function dict.length(tb)
+	tb = tb or {}
+	
+	count = 0
+	
+	for k, v in pairs(tb) do
+		count = count + 1
+	end
+	
+	return count
+end
+
+function chainActive(block_id, sequence_id)
+	
+	if sequence_id == 0 then
+		return true
+	end
+	
+	local result = false
+	local args = {}
+	
+	if not blocks[block_id..""] then
+		return result, args
+	end
+	
+	if not blocks[block_id..""][sequence_id..""] then
+		return result, args
+	end
+	
+	
+	
+	local chain = blocks[block_id..""][sequence_id..""]
+	for k, v in pairs(chain) do -- Handles every block in the chain (All ORs)
+		local block = v
+		storedValues[block.unit] = storedValues[block.unit] or false
+		
+		if ( storedValues[block.unit] == not(endsWith(block.mode, "I")) ) then
+			
+			if block.last_active then
+				result = true
+				table.insert(args, block)
+			end
+		end
+	end
+	
+	return result, args
+	
+end
+
+-- INIT --
+
+update()
+clear(debug_mode)
+
+width, height = term.getSize()
+offsetX = 0
+offsetY = 0
+
+-- PROGRAM READ --
+
+blocks = {}
+local sequence = {}
+local chain = {}
+local first = true
+
+local x = 2
+local y = 0
+
+local or_offset = 0
+local next_line = 0
+local coil_x = 0
+
+local block_id = 1
+local sequence_id = 1
+local chain_id = 1
+
+for i=1, #file, 1 do
+	args = split(file[i], " ")
+	
+	if not isDropable(args[1], file[i-1]) then
+		if next_line <= or_offset then
+			next_line = or_offset + 1
+		end
+		
+		or_offset = 0
+	end
+	
+	
+	if (args[1] == "LD") or (args[1] == "LDI") then
+		if first then
+			first = false
+		else
+			sequence[sequence_id..""] = chain
+			sequence_id = sequence_id + 1
+			chain_id = 1
+			
+			blocks[block_id..""] = sequence
+			block_id = block_id + 1
+			sequence_id = 1
+		end
+		
+		sequence = {}
+		chain = {}
+		y = y + 1 + next_line
+		x = 3
+		next_line = 0
+	end
+	
+	if (args[1] == "AND") or (args[1] == "ANDI") then
+		sequence[sequence_id..""] = chain
+		sequence_id = sequence_id + 1
+		chain_id = 1
+		
+		chain = {}
+		
+		x = x + 10
+	
+	elseif (args[1] == "OR") or (args[1] == "ORI") then
+		or_offset = or_offset + 2
+	
+	elseif (args[1] == "OUT") then
+		sequence[sequence_id..""] = chain
+		sequence_id = sequence_id + 1
+		chain_id = 1
+		chain = {}
+		
+		x = x + 10
+		if coil_x <= x then
+			coil_x = x
+		end
+	end
+	
+	chain[chain_id..""] = Block(args[1], args[2], x, y+or_offset, block_id, sequence_id, chain_id)
+	chain_id = chain_id + 1
+end
+
+chain_id = chain_id - 1
+sequence[sequence_id..""] = chain
+blocks[block_id..""] = sequence
+
+-- FINE TUNING --
+for k, v in pairs(blocks) do
+	local sequence = v
+	for kk, vv in pairs(sequence) do
+		local chain = vv
+		for kkk, vvv in pairs(chain) do
+			local block = vvv
+			if block.mode == "OUT" then
+				block.x = coil_x
+			end
+		end
+	end
+end
+
+-- DO DRAW --
+
+or_count = 0
+offsetX = offsetX + string.len(#blocks.."")
+drawLineDown(offsetX+1, 1, height)
+--print(textutils.serialize(blocks))
+
+-- DRAW BLOCKS --
+
+for k, v in pairs(blocks) do
+	local sequence = v
+	local first = true
+	for kk, vv in pairs(sequence) do
+		local chain = vv
+		for kkk, vvv in pairs(chain) do
+			local block = vvv
+			block.draw()
+			
+			if first then
+				if block.mode == "LD" or block.mode == "LDI" then
+					first = false
+					if string.len(#blocks.."") > 2 then
+						term.setCursorPos(offsetX, block.y)
+					else
+						term.setCursorPos(offsetX+1, block.y)
+					end
+					
+					term.write(k)
+				end
+			end
+		end
+	end
+end
+
+-- FINE TUNING  --
+for k, v in pairs(blocks) do -- Contains every new LD / LDI
+	local sequence = v
+	sequence_length = dict.length(blocks[k])
+	
+	drawLineForward(sequence[(sequence_length-1)..""]["1"].x+10, sequence[(sequence_length-1)..""]["1"].y, sequence[(sequence_length)..""]["1"].x - sequence[(sequence_length-1)..""]["1"].x-10)
+	
+	for kk, vv in pairs(sequence) do -- Contains chain data
+		local chain = vv
+		chain_length = dict.length(sequence[kk])
+		
+		if chain_length > 1 then
+			
+			drawLineDown(chain[chain_length..""].x, chain["1"].y, (chain[chain_length..""].y - chain["1"].y))
+			drawLineDown(chain[chain_length..""].x+10, chain["1"].y, (chain[chain_length..""].y - chain["1"].y))
+					
+			for kkk, vvv in pairs(chain) do
+				local block = vvv
+				connectMiddle(block.x+10, block.y)
+			end
+			
+			connectUp(chain["1"].x, chain["1"].y)
+			connectUp(chain["1"].x+10, chain["1"].y)
+								
+			connectDown(chain[chain_length..""].x, chain[chain_length..""].y)
+			connectDown2(chain[chain_length..""].x+10, chain[chain_length..""].y)
+			
+		end
+		
+	end
+	
+end
+
+
+drawLineDown(coil_x+11, 1, height, true)
+--clear()
+--DEMO()
+
+-- EVENT HANDLER --
+function handleEvent(event)
+
+	--print(textutils.serialize(event))
+	
+end
+
+function updateInputs()
+	local input = rs.getBundledInput("right")
+	for i=0, 15, 1 do
+		storedValues["X"..i] = colors.test(input, 2^i)
+	end
+end
+
+function updateOutputs()
+	local output = 0
+	
+	for i=0, 15, 1 do
+		if storedValues["Q"..i] then
+			output = output + (2^i)
+		end
+	end
+	
+	rs.setBundledOutput("left", output)
+
+end
+
+-- MONITORING --
+local event = {}
+updateInputs()
+
+while true do
+
+	if debug_mode then -- Monitoring mode
+		updateInputs()
+		--handleEvent(event)
+		
+		
+		for k, v in pairs(blocks) do -- Contains every new LD / LDI
+			local sequence = v
+			sequence_length = dict.length(blocks[k])
+			
+			current_color = inactive_color
+			if sequence[(sequence_length)..""]["1"].active then
+				current_color = active_color
+			end
+				
+			drawLineForward(sequence[(sequence_length-1)..""]["1"].x+10, sequence[(sequence_length-1)..""]["1"].y, sequence[(sequence_length)..""]["1"].x - sequence[(sequence_length-1)..""]["1"].x-10, current_color)
+		
+			
+			for kk, vv in pairs(sequence) do -- Contains chain data
+				local chain = vv
+				
+				for kkk, vvv in pairs(chain) do -- Handles every block in the chain (All ORs)
+					local block = vvv
+					
+					storedValues[block.unit] = storedValues[block.unit] or false
+					if not (storedValues[block.unit] == block.active) then
+						block.active = storedValues[block.unit]
+					end
+					block.draw()
+					
+				end
+				
+				local chain_length = dict.length(sequence[kk])
+				
+				if chain_length > 1 then
+					
+					local last_in_chain = chain[chain_length..""]
+					local first_in_chain = chain["1"]
+					
+					local current_color = inactive_color
+					if chainActive(k, kk-1) then
+						current_color = active_color
+					end
+					drawLineDown(first_in_chain.x, first_in_chain.y, (last_in_chain.y - first_in_chain.y), false, current_color)
+					
+					current_color = inactive_color
+					if chainActive(first_in_chain.block_id, first_in_chain.sequence_id) then
+						current_color = active_color
+					end
+					drawLineDown(first_in_chain.x+10, first_in_chain.y, (last_in_chain.y - first_in_chain.y), false, current_color)
+					
+					current_color = inactive_color
+					if chainActive(first_in_chain.block_id, first_in_chain.sequence_id) then
+						current_color = active_color
+					end
+					for kkk, vvv in pairs(chain) do
+						local block = vvv
+						connectMiddle(block.x+10, block.y, current_color)
+					end
+					
+					current_color = inactive_color
+					if chainActive(k, kk-1) then
+						current_color = active_color
+					end
+					connectUp(first_in_chain.x, first_in_chain.y, current_color)
+					connectDown(first_in_chain.x, last_in_chain.y, current_color)
+					
+					current_color = inactive_color
+					if chainActive(first_in_chain.block_id, first_in_chain.sequence_id) then
+						current_color = active_color
+					end
+					connectUp(first_in_chain.x+10, first_in_chain.y, current_color)
+					connectDown2(first_in_chain.x+10, last_in_chain.y, current_color)
+					
+				end
+				
+			end
+			
+		end
+		
+		updateOutputs()
+	end
+	
+	--event = {os.pullEvent()}
+	os.sleep(0.01)
+	
+	if (fs.exists("oof")) then
+		fs.delete("oof")
+	end
+
+	f = fs.open("oof", "w")
+	f.write(blocks)
+	f.write("\n\n")
+	f.write(storedValues)
+	f.close()
+	
+end
+
+
+term.setCursorPos(1, height)
